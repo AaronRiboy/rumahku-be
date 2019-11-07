@@ -9,6 +9,10 @@ app.get('/', async (req, res) => {
     res.send('Hello world!')
 })
 
+app.post('/', async (req, res) => {
+    console.log('user want to post something')
+})
+
 app.listen(3030, () => {
     console.log('App is listening at http://localhost:3030')
 })
