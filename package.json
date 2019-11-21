@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r esm app.js"
+    "dev": "nodemon --inspect=0.0.0.0:9229 -r esm app.js",
+    "start": "node -r esm app.js"
   },
   "keywords": [],
   "author": "",
