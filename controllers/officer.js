@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
 router.post('/login', passport.authenticate('officer-local', { session: false }), async (req, res) => {
     const token = helpers.generateToken (req.user);
     const officer = await Officer.findById(req.user._id).select('-password -__v');
-    res.status(200).send({ ...officer, token })
+    res.status(200).send({ ...officer.toObject(), token })
 })
 
 export default router;
