@@ -4,7 +4,8 @@ import argon2 from 'argon2'
 const OfficerSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     firstName: {
         type: String
@@ -14,7 +15,8 @@ const OfficerSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
