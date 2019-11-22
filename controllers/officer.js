@@ -1,24 +1,24 @@
 import express from 'express'
-import User from '../models/User'
+import Officer from '../models/Officer'
 import passport from 'passport'
 import helpers from '../helpers'
 
 const router = express.Router()
 
 /**
- * To retrieve the profile of the User
+ * To retrieve the profile of the officer
  */
-router.get('/:id', passport.authenticate('user-jwt', { session: false }), async (req, res) => {
+router.get('/:id', passport.authenticate('officer-jwt', { session: false }), async (req, res) => {
     const { id } = req.params;
-    const userId = req.user._id;
+    const officerId = req.user._id;
 
-    // Don't send the user's password back to the user
+    // Don't send the officer's password back to the officer
     try {
-        const user = await User.findById(id).select('-password');
-        if (id != userId) {
+        const officer = await Officer.findById(id).select('-password');
+        if (id != officerId) {
             return res.status(401).json({ success: false, errorMsg: 'Unauthorized' })
         }
-        res.send(user)
+        res.send(officer)
     } catch (error) {
         // If the request specifies an Id that crashes our mongo
         return res.status(401).json({ success: false, errorMsg: 'Unauthorized' })
@@ -27,39 +27,37 @@ router.get('/:id', passport.authenticate('user-jwt', { session: false }), async 
 })
 
 /**
- * Controller method to register an user
+ * Controller method to register an officer
  * It returns a JWT token
  */
 router.post('/', async (req, res) => {
-    const { username, firstName, lastName, nric, dateOfBirth, email, password } = req.body;
+    const { username, firstName, lastName, email, password } = req.body;
     
-    const doc = new User({
+    const doc = new Officer({
         username,
         firstName,
         lastName,
-        nric,
-        dateOfBirth,
         email,
-        password,
-        salary
+        password
     })
 
     try {
         
         // Needed to ensure 'unique' works
         // It initializes the indexs in MongoDB
-        await User.init() 
+        await Officer.init() 
 
         // Create the user
-        const theUser = await User.create(doc)
+        const theOfficer = await Officer.create(doc)
 
         // Sign the Token
-        const token = helpers.generateToken(theUser);
-
+        const token = helpers.generateToken(theOfficer);
+        
         // Send the Token back
         res.status(201).json({ token })
 
     } catch (error) {
+        console.log(error)
         // If the username or emails exists
         if (error.code == 11000) {
             res.status(400).json({
@@ -74,12 +72,11 @@ router.post('/', async (req, res) => {
 })
 
 /**
- * Given the email and password, log the user in
+ * Given the email and password, log the officer in
  */
-router.post('/login', passport.authenticate('user-local', { session: false }), async (req, res) => {
+router.post('/login', passport.authenticate('officer-local', { session: false }), async (req, res) => {
     const token = helpers.generateToken (req.user);
     res.status(200).send({ token })
 })
-
 
 export default router;
