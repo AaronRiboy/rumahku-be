@@ -3,6 +3,7 @@ import UserController from './user'
 import OfficerController from './officer'
 import ResidencesController from './residence'
 import FacilityController from './facility'
+import ApplicationController from './application'
 
 const router = express.Router();
 
@@ -11,5 +12,6 @@ router.use('/users', UserController)
 router.use('/officers', OfficerController)
 router.use('/residences', ResidencesController)
 router.use('/facility', FacilityController)
+router.use('/application,',ApplicationController)
 
 export default router
