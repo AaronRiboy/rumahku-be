@@ -9,9 +9,13 @@ const FacilitySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    schema: {
+    description: {
         type: String,
         required: true
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Officer'
     }
 }, {
     timestamps: true

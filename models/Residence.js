@@ -5,7 +5,11 @@ const ResidenceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    location: {
+    district: {
+        type: String,
+        required: true
+    },
+    city: {
         type: String,
         required: true
     },
