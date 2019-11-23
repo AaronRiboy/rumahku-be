@@ -21,7 +21,8 @@ router.post('/', passport.authenticate('officer-jwt', { session: false }), uploa
 
     const {
         name,
-        location,
+        district,
+        city,
         description,
         numUnits
     } = req.body;
@@ -30,7 +31,8 @@ router.post('/', passport.authenticate('officer-jwt', { session: false }), uploa
 
     const residence = await Residence.create({
         name,
-        location,
+        district,
+        city,
         description,
         numUnits,
         createdBy: officer._id
