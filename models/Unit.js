@@ -12,10 +12,14 @@ const UnitSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Facility'
     }],
-    tenancies: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tenancy'
-    }],
+    rate: {
+        type: number,
+        required: true
+    },
+    duration: {
+        type: number,
+        required: true
+    },
     totalAvailable: number
 })
 
