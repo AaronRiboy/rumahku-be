@@ -12,13 +12,13 @@ const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const residences = await Residence.find();
+    const residences = await Residence.find().populate('facilities');
     res.status(200).json(residences);
 })
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const residence = await Residence.findById(id);
+    const residence = await Residence.findById(id).populate('facilities');
     if (!residence) return res.status(404);
     res.status(200).send(residence)
 })
@@ -59,4 +59,13 @@ router.post('/', passport.authenticate('officer-jwt', { session: false }), uploa
     }
 })
 
+router.patch('/:id', passport.authenticate('officer-jwt', { session: false }), async(req, res) => {
+    const updateObj = req.body;
+    const { id } = req.params;
+
+    console.log(updateObj)
+    await Residence.updateOne({ _id: id }, updateObj)
+    const residence = await Residence.findById(id).populate('facilities')
+    res.status(200).send(residence)
+})
 export default router
