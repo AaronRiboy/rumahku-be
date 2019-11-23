@@ -7,7 +7,7 @@ import passport from 'passport';
 import Officer from '../models/Officer';
 
 const upload = multer({ dest: 'uploads/' });
-
+const officerJwt = passport.authenticate('officer-jwt', { session: false })
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
 })
 
 const upload1 = upload.single('headerImg');
-router.post('/', passport.authenticate('officer-jwt', { session: false }), upload1, async (req, res) => {
+router.post('/', officerJwt, upload1, async (req, res) => {
 
     const {
         name,
@@ -59,7 +59,7 @@ router.post('/', passport.authenticate('officer-jwt', { session: false }), uploa
     }
 })
 
-router.patch('/:id', passport.authenticate('officer-jwt', { session: false }), async(req, res) => {
+router.patch('/:id', officerJwt, async(req, res) => {
     const updateObj = req.body;
     const { id } = req.params;
 
@@ -68,4 +68,22 @@ router.patch('/:id', passport.authenticate('officer-jwt', { session: false }), a
     const residence = await Residence.findById(id).populate('facilities')
     res.status(200).send(residence)
 })
+
+router.delete('/:id', officerJwt, async (req, res) => {
+    const { id } = req.params;
+    
+    const residence = await Residence.findById(id);
+    if (!residence) {
+        return res.status(404)
+    }
+
+    Residence.deleteOne({ _id: id }, function(err) {
+        if (err) {
+            return res.status(500)
+        }
+        return res.status(200).send(residence)
+    })
+
+})
+
 export default router
