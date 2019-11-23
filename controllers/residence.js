@@ -16,6 +16,13 @@ router.get('/', async (req, res) => {
     res.status(200).json(residences);
 })
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    const residence = await Residence.findById(id);
+    if (!residence) return res.status(404);
+    res.status(200).send(residence)
+})
+
 const upload1 = upload.single('headerImg');
 router.post('/', passport.authenticate('officer-jwt', { session: false }), upload1, async (req, res) => {
 
@@ -51,6 +58,5 @@ router.post('/', passport.authenticate('officer-jwt', { session: false }), uploa
         res.status(500)
     }
 })
-
 
 export default router
