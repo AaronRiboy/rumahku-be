@@ -13,7 +13,7 @@ const ApplicationSchema = new mongoose.Schema({
         ref: 'Tenancy'
     },
     status: {
-        type: string,
+        type: String, // careful
         enum: ['pending', 'approved', 'rejected']
     },
     approvedBy: {
