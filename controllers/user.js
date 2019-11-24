@@ -32,7 +32,7 @@ router.get('/:id', passport.authenticate('user-jwt', { session: false }), async 
  * It returns a JWT token
  */
 router.post('/', async (req, res) => {
-    const { username, firstName, lastName, nric, dateOfBirth, email, password } = req.body;
+    const { username, firstName, lastName, nric, dateOfBirth, email, password, salary } = req.body;
     
     const doc = new User({
         username,
