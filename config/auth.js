@@ -94,7 +94,7 @@ class Authentication {
 
     async officerLocalStrategy(email, password, done) {
         try {
-            const officer = await Officer.findOne({ email });
+            const officer = await Officer.findOne({ email }).select("+password");
 
             if (!officer) {
                 return done(null, false, {
