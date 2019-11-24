@@ -5,17 +5,22 @@ const ApplicationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Unit'
     },
-    tenancy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tenancy'
+    contractId: {
+        type: String,
+        required: true
     },
     status: {
         type: String, // careful
-        enum: ['pending', 'approved', 'rejected']
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
     },
     approvedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Officer'
+    },
+    applyBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {
     timestamps: true
