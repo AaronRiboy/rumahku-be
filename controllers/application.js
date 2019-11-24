@@ -10,7 +10,12 @@ const router = express.Router()
 router.get('/', async (req, res) => {
     
     try {
-        const applications = await Application.find().populate('unit approvedBy applyBy');
+        const applications = await Application.find().populate({
+            path: 'unit approvedBy applyBy',
+            populate: {
+                path: 'residence'
+            }
+        });
         return res.status(200).send(applications);
     } catch (error) {
         return res.status(500).send({
