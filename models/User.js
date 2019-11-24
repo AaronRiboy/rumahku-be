@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         select: false
+    },
+    salary: {
+        type: Number
     }
 }, {
     timestamps: true

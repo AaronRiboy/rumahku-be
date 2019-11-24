@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    const { id: unitId } = req.param;
+    const { id: unitId } = req.params;
 
     try {
         const unit = await Unit.findById(unitId);
