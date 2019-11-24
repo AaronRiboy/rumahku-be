@@ -1,26 +1,34 @@
 import mongoose from 'mongoose'
 
+const ContractSchema = new mongoose.Schema({
+    durationMonths: Number, // Always will be months
+    ratePerMonth: Number // Rate per Month
+})
+
 const UnitSchema = new mongoose.Schema({
     residence: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Residence'
+        ref: 'Residence',
+        required: true
     },
-    name: String,
-    image: String,
+    name: {
+        type: String,
+        required: true
+    },
+    mainImage: String,
+    unitImages: [String],
     description: String,
-    facilities: [{
+    contracts: [ContractSchema],
+    totalAvailable: Number,
+    isAvailable: {
+        type: Boolean,
+        default: true
+    },
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Facility'
-    }],
-    rate: {
-        type: number,
+        ref: 'Officer',
         required: true
-    },
-    duration: {
-        type: number,
-        required: true
-    },
-    totalAvailable: number
+    }
 })
 
 export default mongoose.model('Unit', UnitSchema)

@@ -77,6 +77,13 @@ router.delete('/:id', officerJwt, async (req, res) => {
         return res.status(404)
     }
 
+    try {
+        const imagePath = `public/residences/${residence._id}`;
+        await fs.remove(imagePath)
+    } catch (error) {
+        console.log(`an error occured when deleting the folder: public/residences/${residence._id}`)
+    }
+
     Residence.deleteOne({ _id: id }, function(err) {
         if (err) {
             return res.status(500)
