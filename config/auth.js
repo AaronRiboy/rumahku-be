@@ -1,6 +1,7 @@
 import passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
+import { Strategy as AnonymousStrategy } from 'passport-anonymous';
 import User from '../models/User';
 import Officer from '../models/Officer';
 import argon2 from 'argon2';
@@ -29,6 +30,8 @@ class Authentication {
         this.passport.use('officer-local', new LocalStrategy({
             usernameField: 'email',
         }, this.officerLocalStrategy));
+
+        this.passport.use('anonymous', new AnonymousStrategy())
     }
 
     async userJwtStrategy(payload, done) {
